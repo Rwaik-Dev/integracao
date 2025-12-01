@@ -1,0 +1,61 @@
+ROUTINE criaRegistroDestino
+ KILL ^trans.TRE.DATA.DestinoD
+criaRegistroDestino ;
+
+ SET destinos = ##class(%DynamicArray).%New()
+
+ //Destino 1
+ SET d = ##class(%DynamicObject).%New()
+ SET d.CEPFinal = "5999"
+ SET d.CEPInicial = "1000"
+ SET d.CodigoDestino = "A1"
+ SET d.PrazoEntregaDias = 2
+ DO destinos.%Push(d)
+
+ //Destino 2
+ SET d = ##class(%DynamicObject).%New()
+ SET d.CEPFinal = "8499"
+ SET d.CEPInicial = "8000"
+ SET d.CodigoDestino = "A2"
+ SET d.PrazoEntregaDias = 2
+ DO destinos.%Push(d)
+
+ //Destino 3
+ SET d = ##class(%DynamicObject).%New()
+ SET d.CEPFinal = "13139"
+ SET d.CEPInicial = "13000"
+ SET d.CodigoDestino = "A3"
+ SET d.PrazoEntregaDias = 3
+ DO destinos.%Push(d)
+
+ //Destino 4
+ SET d = ##class(%DynamicObject).%New()
+ SET d.CEPFinal = "23799"
+ SET d.CEPInicial = "20000"
+ SET d.CodigoDestino = "B1"
+ SET d.PrazoEntregaDias = 4
+ DO destinos.%Push(d)
+
+ //Destino 5
+ SET d = ##class(%DynamicObject).%New()
+ SET d.CEPFinal = "91999"
+ SET d.CEPInicial = "90000"
+ SET d.CodigoDestino = "C1"
+ SET d.PrazoEntregaDias = 5
+ DO destinos.%Push(d)
+
+ FOR i=0:1:destinos.%Size() - 1 {
+    WRITE "Cadastrando destino ",i+1,!
+    SET cadDestino = ##class(trans.TRE.DATA.Destino).%New()
+    SET destino = destinos.%Get(i)
+
+    SET cadDestino.CEPFinal = destino.CEPFinal
+    SET cadDestino.CEPInicial = destino.CEPInicial
+    SET cadDestino.CodigoDestino = destino.CodigoDestino
+    SET cadDestino.PrazoEntregaDias = destino.PrazoEntregaDias
+    SET sc = cadDestino.%Save()
+    
+    WRITE "Destino ",i+1," cadastrado com sucesso.",!
+ }
+
+

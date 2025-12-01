@@ -1,0 +1,83 @@
+ROUTINE criaRegistroCliente
+ Kill ^trans.TRE.DATA.ClienteD
+criaRegistroCliente ;
+    SET clientes = ##class(%DynamicArray).%New()
+
+    // Cliente 1
+    SET c = ##class(%DynamicObject).%New()
+    SET c.CodigoCliente = 3
+    SET c.NomeEmpresa = "Alfreds Futterkiste"
+    SET c.NomeContato = "Maria Anders"
+    SET c.Endereco = "Rua São João, 1536"
+    SET c.CEP = "01510-000"
+    SET c.Cidade = "São Paulo"
+    SET c.Estado = "SP"
+    SET c.EnderecoEmail = "alfreds@teste.com.br"
+    DO clientes.%Push(c)
+
+    //Cliente 2
+    SET c = ##class(%DynamicObject).%New()
+    SET c.CodigoCliente = 5
+    SET c.NomeEmpresa = "Trujillo Emparedados"
+    SET c.NomeContato = "Ana Trujillo"
+    SET c.Endereco = "Av. Beira Rio, 9878"
+    SET c.CEP = "21333-972"
+    SET c.Cidade = "Rio de Janeiro"
+    SET c.Estado = "RJ"
+    SET c.EnderecoEmail = "trujillo@teste.com.br"
+    DO clientes.%Push(c)
+
+    //Cliente 3
+    SET c = ##class(%DynamicObject).%New()
+    SET c.CodigoCliente = 6
+    SET c.NomeEmpresa = "A M Taqueria"
+    SET c.NomeContato = "Antonio Moreno"
+    SET c.Endereco = "AV. Siqueira CAmpos, 988 - Sala 3"
+    SET c.CEP = "02510-333"
+    SET c.Cidade = "São Paulo"
+    SET c.Estado = "SP"
+    SET c.EnderecoEmail = "taqueria@teste.com.br"
+    DO clientes.%Push(c)
+
+    //Cliente 4
+    SET c = ##class(%DynamicObject).%New()
+    SET c.CodigoCliente = 7
+    SET c.NomeEmpresa = "Around the Horn"
+    SET c.NomeContato = "Thomas Hardy"
+    SET c.Endereco = "AV. Sete de Setembro, 1478"
+    SET c.CEP = "80510-000"
+    SET c.Cidade = "Curitiba"
+    SET c.Estado = "PR"
+    SET c.EnderecoEmail = "hardy@teste.com.br"
+    DO clientes.%Push(c)
+
+    //Cliente 5
+    SET c = ##class(%DynamicObject).%New()
+    SET c.CodigoCliente = 8
+    SET c.NomeEmpresa = "Berglunds"
+    SET c.NomeContato = "Christina Berglund"
+    SET c.Endereco = "AV. Pampulha, 87"
+    SET c.CEP = "31455-999"
+    SET c.Cidade = "Belo Horizonte"
+    SET c.Estado = "MG"
+    SET c.EnderecoEmail = "berglunds@teste.com.br"
+    DO clientes.%Push(c)
+
+    FOR i=0:1:pedidos.%Size()-1{
+        WRITE "Cadastrando cliente ",i+1,!
+        SET cadCliente = ##class(trans.TRE.DATA.Cliente).%New()
+
+        SET cliente = clientes.%Get(i)
+
+        SET cadCliente.CEP = cliente.CEP
+        SET cadCliente.Cidade = cliente.Cidade
+        SET cadCliente.CodigoCliente = cliente.CodigoCliente
+        SET cadCliente.Endereco = cliente.Endereco
+        SET cadCliente.EnderecoEmail = cliente.EnderecoEmail
+        SET cadCliente.Estado = cliente.Estado
+        SET cadCliente.NomeContato = cliente.NomeContato
+        SET cadCliente.NomeEmpresa = cliente.NomeEmpresa
+        SET sc = cadCliente.%Save()
+
+        WRITE "Cliente ",i+1," cadastrado com sucesso.",!
+    }

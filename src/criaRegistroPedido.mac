@@ -1,0 +1,73 @@
+ROUTINE criaRegistroPedido
+ Kill ^trans.TRE.DATA.PedidoD
+criaRegistroPedido ;
+
+    Set pedidos = ##class(%DynamicArray).%New()
+
+    // Pedido 1
+    Set p = ##class(%DynamicObject).%New()
+    Set p.CodigoCliente = 3
+    Set p.CodigoPedido = 1
+    Set p.CodigoTransportadora = 1
+    Set p.DataPedido = "02/02/2006"
+    Set p."DataPrevisãoEntrega" = "06/02/2006"
+    Set p.PesoKg = "22,1"
+    Set p.ValorPedido = "R$ 124,00"
+    Set p.Volumes = 1
+    Do pedidos.%Push(p)
+
+    // Pedido 2
+    Set p = ##class(%DynamicObject).%New()
+    Set p.CodigoCliente = 3
+    Set p.CodigoPedido = 2
+    Set p.CodigoTransportadora = 2
+    Set p.DataPedido = "31/01/2006"
+    Set p."DataPrevisãoEntrega" = "04/01/2006"
+    Set p.PesoKg = "75,4"
+    Set p.ValorPedido = "R$ 722,00"
+    Set p.Volumes = 3
+    Do pedidos.%Push(p)
+
+    // Pedido 3
+    Set p = ##class(%DynamicObject).%New()
+    Set p.CodigoCliente = 5
+    Set p.CodigoPedido = 3
+    Set p.CodigoTransportadora = 2
+    Set p.DataPedido = "20/11/2005"
+    Set p."DataPrevisãoEntrega" = "25/11/2005"
+    Set p.PesoKg = "28,9"
+    Set p.ValorPedido = "R$ 500,00"
+    Set p.Volumes = 2
+    Do pedidos.%Push(p)
+
+    // Pedido 4
+    Set p = ##class(%DynamicObject).%New()
+    Set p.CodigoCliente = 7
+    Set p.CodigoPedido = 12
+    Set p.CodigoTransportadora = 2
+    Set p.DataPedido = "13/12/2018"
+    Set p."DataPrevisãoEntrega" = "14/12/2018"
+    Set p.PesoKg = "12,4"
+    Set p.ValorPedido = "R$ 920,00"
+    Set p.Volumes = 1
+    Do pedidos.%Push(p)
+
+    // Itera e printa no console
+    For i=0:1:pedidos.%Size()-1 {
+        Set cadPedido = ##class(trans.TRE.DATA.Pedido).%New()
+        
+        Write "Cadastrando pedido ",i+1,!
+        Set pedido = pedidos.%Get(i)
+
+        Set cadPedido.CodigoCliente = pedido.CodigoCliente
+        Set cadPedido.CodigoPedido = pedido.CodigoPedido
+        Set cadPedido.CodigoTransportadora = pedido.CodigoTransportadora
+        Set cadPedido.DataPedido = pedido.DataPedido
+        Set cadPedido.DataPrevisaoEntrega = pedido."DataPrevisãoEntrega"
+        Set cadPedido.PesoKG = pedido.PesoKg
+        Set cadPedido.ValorPedido = pedido.ValorPedido
+        Set cadPedido.Volumes = pedido.Volumes
+        Set sc = cadPedido.%Save()
+        
+        Write "Pedido ",i+1," cadastrado com sucesso.",!
+    }
