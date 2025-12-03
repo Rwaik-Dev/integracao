@@ -60,7 +60,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign name="AtribuiSpeedy" property="response.CodigoTransp" value="1" action="set" xpos='470' ypos='1450' />
 <alert value='response.CodigoTransp' xpos='470' ypos='1550' />
 <assign name="CalculaAtribuiDataEntrega" property="response.DataPrevisaoEntrega" value="$PIECE($HOROLOG,&quot;,&quot;,1) + context.PrazoEntregaDias" action="set" xpos='470' ypos='1650' />
-<alert value='$ZDATE(response.DataPrevisaoEntrega,4)' xpos='470' ypos='1750' />
+<alert value='$ZDATE(response.DataPrevisaoEntrega)' xpos='483' ypos='1807' />
 </true>
 <false>
 <alert name='Analisa Erro' value='"Não aceitavel pela transportadora Speedy"' xpos='740' ypos='1450' />
