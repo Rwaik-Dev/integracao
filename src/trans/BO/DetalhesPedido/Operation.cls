@@ -9,7 +9,6 @@ Method Pedido(pRequest As trans.BO.DetalhesPedido.Pedido.Request, Output pRespon
     Set tSC = $$$OK
     SET pResponse = ##class(trans.BO.DetalhesPedido.Pedido.Response).%New()
 
-    Hang 15 Break
     Try {
         $$$TRACE("Iniciando processamento do metodo Pedido")
         SET obj = ##class(trans.TRE.DATA.Pedido).%New()

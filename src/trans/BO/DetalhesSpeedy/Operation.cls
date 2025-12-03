@@ -8,8 +8,6 @@ Method VerificaDestinoSpeedy(pRequest As trans.BO.DetalhesSpeedy.VerificaDestino
     Set vStatus = $$$OK
     SET pResponse = ##class(trans.BO.DetalhesSpeedy.VerificaDestinoSpeedy.Response).%New()
 
-   // HANG 15 BREAK
-
     Try {
         SET vQuery = "SELECT 1 FROM trans_TRE_DATA.Destino WHERE ? BETWEEN CEPInicial AND CEPFinal"
         SET vStatement = ##class(%SQL.Statement).%New()
@@ -33,8 +31,6 @@ Method RecupPrazoEntrega(pRequest As trans.BO.DetalhesSpeedy.RecupPrazoEntrega.R
 {
     Set vStatus = $$$OK
     SET pResponse = ##class(trans.BO.DetalhesSpeedy.RecupPrazoEntrega.Response).%New()
-
-   // HANG 15 BREAK
 
     Try {
         SET vQuery = "SELECT PrazoEntregaDias FROM trans_TRE_DATA.Destino WHERE ? BETWEEN CEPInicial AND CEPFinal"

@@ -29,9 +29,7 @@ Method RecupDetalhesPedidos(pRequest As trans.BO.RecupDetalhesPedidos.Request, O
                 Set pResponse.NomeContato = vResultSet.%Get("NomeContato")
                 Set pResponse.PesoKg = vResultSet.%Get("PesoKg")
                 Set pResponse.Volumes = vResultSet.%Get("Volumes")
-            } Else {
-                Set tSC = $$$ERROR("Pedido nao encontrado.")
-            }
+            } 
         }
     Catch ex {
         Set tSC=ex.AsStatus()
