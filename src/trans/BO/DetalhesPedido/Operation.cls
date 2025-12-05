@@ -90,22 +90,7 @@ Method Cliente(pRequest As trans.BO.DetalhesPedido.Cliente.Request, Output pResp
             SET pResponse.Mensagem = "Cliente salvo com sucesso."
             
         }
-        #; $$$TRACE("Iniciando processamento do metodo Cliente")
-        #; SET obj = ##class(trans.TRE.DATA.Cliente).%New()
-        #; $$$TRACE("Criando objeto Metodo BO Cliente")
 
-        #; SET obj.CodigoCliente = pRequest.CodigoCliente
-        #; SET obj.NomeEmpresa = pRequest.NomeEmpresa
-        #; SET obj.NomeContato = pRequest.NomeContato
-        #; SET obj.Endereco = pRequest.Endereco
-        #; SET obj.CEP = pRequest.CEP
-        #; SET obj.Cidade = pRequest.Cidade
-        #; SET obj.Estado = pRequest.Estado
-        #; SET obj.EnderecoEmail = pRequest.EnderecoEmail
-        
-        #; SET tCS = obj.%Save()
-
-        #; SET pResponse.Mensagem = "Cliente salvo com sucesso."
     }
     Catch ex {
         $$$TRACE("Erro ao processar o metodo Cliente(): "_ex.DisplayString())
@@ -149,6 +134,44 @@ Method Destino(pRequest As trans.BO.DetalhesPedido.Destino.Request, Output pResp
     Return tSC
 }
 
+Method Delete(pRequest As trans.BO.DetalhesPedido.Cliente.Rest.Delete.Request, Output pResponse As trans.BO.DetalhesPedido.Cliente.Rest.Delete.Response)
+{
+    SET tSC = $System.Status.OK()
+    SET pResponse = ##class(trans.BO.DetalhesPedido.Cliente.Rest.Delete.Response).%New()
+
+    Try{
+        IF (pRequest.DATA '="" && ##class(trans.TRE.DATA.Cliente).%ExistsId(pRequest.DATA)){
+            SET tSC = ##class(trans.TRE.DATA.Cliente).%DeleteId(pRequest.DATA)
+            IF 'tSC {
+                SET tCodErro = ##class(%Exception.StatusException).CreateFromStatus(tSC).Code
+                IF (tCodErro = 5823){
+                    SET tSC = $System.Status.OK()
+                    SET pResponse.Status = 1
+                    SET pResponse.Contents = "Não e possivel excluir, registro referenciado em outra tabela"
+                }
+                ELSE {
+                    SET pResponse.Status = 2
+                    SET pResponse.Contents = ##class(%Exception.StatusException).CreateFromStatus(tSC)
+                }
+            }
+            ELSE{
+                SET pResponse.Status = 0
+                SET pResponse.Contents = "Registro excluido com sucesso"
+            }
+        }
+        ELSE {
+            SET pResponse.Status = 1
+            SET pResponse.Contents = "Registro não encontrado"
+        }
+    }
+    Catch ex {
+        set tSC = ex.AsStatus()
+        
+    }
+
+    Return tSC
+}
+
 /// Mapeamento de mensagens para o metodo Pedido
 XData MessageMap
 {
@@ -161,6 +184,9 @@ XData MessageMap
     </MapItem>
     <MapItem  MessageType="trans.BO.DetalhesPedido.Destino.Request">
         <Method>Destino</Method>
+    </MapItem>
+    <MapItem  MessageType="trans.BO.DetalhesPedido.Cliente.Rest.Delete.Request">
+        <Method>Delete</Method>
     </MapItem>
 </MapItens>
 }
